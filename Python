@@ -1,0 +1,45 @@
+#package pandas, numpy, re, sklearn, xgboost, seaborn, matplotlib.pyplot, sklearn.ensemble
+
+#set workdirectory 
+import os
+os.chdir('path')
+os.getcwd #get current working directory 
+
+#import dataset 
+train = pd.read_csv('..csv') #csv file 
+train = pd.ExcelFile('..xlsx')
+print(train.sheet_names)
+df1= train.parse('Sheet1') #xlsx file 
+
+#Feature Enginering 
+#apply function apply to each column or row:using axis (1 column, 0 row)
+train['Name_length'] = train['Name'].apply(len) #create a column called Name Length
+
+#lambda A lambda function is a small anonymous function
+train['Has_Cabin'] = train["Cabin"].apply(lambda x: 0 if type(x) == float else 1)
+ #create a column called 'has_cabin', if train['cabin']'s value is x which would be set as a input in lambda function
+ 
+#subset
+dataset.loc[dataset['FamilySize'] ==1, 'IsAlone'] = 1 
+for those rows whose familysize variable equals 1, variable 'IsAlone' equals 1
+
+#Fill mising value 
+ dataset['Fare'] = dataset['Fare'].fillna(train['Fare'].median())
+ #fill misingvalue in 'Fare' column with its median value 
+ 
+#create catogoricalAge
+train['CategoricalAge'] = pd.cut(train['Age'],5)
+
+#count how many missing values 
+age_null_count = dataset['Age'].isnull().sum()
+
+#regular expression 
+def get_title(name):
+    title_search = re.search(' ([A-Za-z]+)\.', name) #pattern
+    # If the title exists, extract and return it.
+    if title_search:
+        return title_search.group(1)
+    return ""
+
+#map
+dataset['Sex'] = dataset['Sex'].map({'female':0,'male':1}).astype(int)
